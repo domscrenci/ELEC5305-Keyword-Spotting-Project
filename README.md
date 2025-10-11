@@ -9,10 +9,18 @@ All code is organised to be easy to read and easy to modify during a live demons
 
 
 ├─ code
+
 │  ├─ KeywordSpottingInNoiseUsingMFCCAndLSTMNetworksExample.mlx   ← ORIGNAL main live script (without fixes)
+
 |  |─KeywordSpottingInNoiseUsingMFCCAndLSTMNetworksExampleUPDATED.mlx  ← UPDATED main live script (with fixes)
+
 │  └─ generateKeywordFeatures.m                                   ← generated 16 kHz, 512/384 MFCC(13)+Δ+ΔΔ
+
 ├─ models
+
 │  └─ KWSBaseline1.mat                                            ← pre-trained binary model 
+
 └─ audio
+
    └─ keywordTestSignal.wav                                       ← small test clip 
+   
