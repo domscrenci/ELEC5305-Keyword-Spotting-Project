@@ -18,6 +18,8 @@ All code is organised to be easy to read and easy to modify during a live demons
 
 ├─ models
 
+│  └─ KWSBaseline.mat                                            ← pre-trained binary model 
+
 │  └─ KWSBaseline1.mat                                            ← pre-trained binary model 
 
 └─ audio
