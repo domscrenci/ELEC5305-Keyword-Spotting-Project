@@ -6,3 +6,13 @@ Rather than proposing a new architecture, the project concentrates on reproducib
 
 The intended outcome is a live demo that behaves reliably on a microphone at 16 kHz, a compact set of evaluation routines that show before/after behaviour, and a brief written discussion that explains the design choices, the trade-offs, and the limitations.
 All code is organised to be easy to read and easy to modify during a live demonstration or marking session.
+
+
+├─ code
+│  ├─ KeywordSpottingInNoiseUsingMFCCAndLSTMNetworksExample.mlx   ← ORIGNAL main live script (without fixes)
+|  |─KeywordSpottingInNoiseUsingMFCCAndLSTMNetworksExampleUPDATED.mlx  ← UPDATED main live script (with fixes)
+│  └─ generateKeywordFeatures.m                                   ← generated 16 kHz, 512/384 MFCC(13)+Δ+ΔΔ
+├─ models
+│  └─ KWSBaseline1.mat                                            ← pre-trained binary model 
+└─ audio
+   └─ keywordTestSignal.wav                                       ← small test clip 
