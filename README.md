@@ -1,28 +1,38 @@
-# ELEC5305 — Live Keyword Spotting (MFCC + LSTM)
+# ELEC5305 — Keyword Spotting (MFCC + LSTM)
 
-This repository documents a small but focused research project on live, single-word keyword spotting (KWS) using MFCC features (13 static coefficients plus first- and second-order deltas for a 39-dimensional stream) and an LSTM sequence model. 
-The practical goal is to make the stock MathWorks live demo stable, predictable, and demonstrably more robust in real time, with a special emphasis on reducing sibilant-driven false positives (for example, the “ss” sound in “yes”). 
-Rather than proposing a new architecture, the project concentrates on reproducible engineering improvements: cleaning up the live pipeline, tightening buffering and feature extraction, adding decision-time post-processing (smoothing, hysteresis, duration checks), and introducing simple signal-based vetoes that distinguish hiss from genuine speech.
+This project improves MATLAB’s baseline keyword-spotting model by fixing false detections caused by sibilant “sss” sounds.  
+The model uses MFCC + Δ + ΔΔ features with an LSTM network (`KWSBaseline1.mat`).  
+The update focuses on adaptive thresholding, smoothing, and hysteresis for more accurate “yes” detection without retraining.
 
-The intended outcome is a live demo that behaves reliably on a microphone at 16 kHz, a compact set of evaluation routines that show before/after behaviour, and a brief written discussion that explains the design choices, the trade-offs, and the limitations.
-All code is organised to be easy to read and easy to modify during a live demonstration or marking session.
+---
 
+## Files
 
-├─ code
+**KWS_For_Wav.m** — Main evaluation script.  
+Loads a `.wav` file, extracts MFCCs, runs inference through the LSTM model, applies adaptive thresholds, and plots waveform, posterior, and detected events. this is the main file for testing single wavs
 
-│  ├─ KeywordSpottingInNoiseUsingMFCCAndLSTMNetworksExample.mlx   ← ORIGNAL main live script (without fixes)
+**KWS_Batch_Analysis.m** — Runs `KWS_Eval_final` across all test clips to compare multiple experiments or parameter sets. call the function with the name or location of the folder with all the test clips
 
-|  |─KeywordSpottingInNoiseUsingMFCCAndLSTMNetworksExampleUPDATED.mlx  ← UPDATED main live script (with fixes)
+**KWS_Batch_Analysis_CSV_Compiler.m** — Collects CSV outputs from batch runs and combines them into summary tables or heatmaps. run by calling with name of location of the folder ensure that the summary csv is also in the folder.
 
-│  └─ generateKeywordFeatures.m                                   ← generated 16 kHz, 512/384 MFCC(13)+Δ+ΔΔ
+**KWS_Network_Checker.m** — Confirms that the LSTM model loads correctly and displays network structure and I/O sizes.
 
-├─ models
+**KWSBaseline.mat / KWSBaseline1.mat** — Pre-trained binary LSTM keyword-spotting models. USE KWSBaseline1.mat when running the code
 
-│  └─ KWSBaseline.mat                                            ← pre-trained binary model 
+**KWS.mlx** — MATLAB Live Script version of the workflow; shows main pipeline interactively. This is a condesned version of the orignal matlab file and it will succsessfully run the orignal matlab without errors of the orignal.
 
-│  └─ KWSBaseline1.mat                                            ← pre-trained binary model 
+**KeywordSpottingInNoiseUsingMFCCAndLSTMNetworksExample.mlx** — Original MathWorks example used as the baseline reference.
 
-└─ audio
+**Record_Yes.m** — Simple recorder to create new “yes” audio samples for testing.
 
-   └─ keywordTestSignal.wav                                       ← small test clip 
-   
+**audio/** — Folder containing test recordings such as `yes__01.wav`, `yes__02.wav`, and `keywordTestSignal.wav`.
+
+**README.md** — This file.
+
+---
+
+## How to Run
+
+1. Open MATLAB and navigate to this project folder.  
+2. Make sure the test clips are inside the `audio/` folder.  
+3. Run the main script:    KWS_For_Wav for single wav evaluation or KWS_Batch_Analysis for running testing all wavs.
